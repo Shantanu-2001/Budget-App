@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rails-service
+spec:
+  type: NodePort                # <--- change to NodePort
+  selector:
+    app: rails
+  ports:
+    - protocol: TCP
+      port: 3000               # service port
+      targetPort: 3000         # container port
+      nodePort: 32555          # node port to expose externally (must be between 30000-32767)
