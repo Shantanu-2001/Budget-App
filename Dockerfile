@@ -1,25 +1,27 @@
-FROM ruby:3.2
+# Use Ruby 3.1.2 to match the Gemfile
+FROM ruby:3.1.2
 
-# Install dependencies
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
+# Install essential packages
+RUN apt-get update -qq && apt-get install -y \
+  nodejs \
+  yarn \
+  postgresql-client
 
-# Set working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy Gemfiles
+# Install dependencies
 COPY Gemfile Gemfile.lock ./
-
-# Install gems
 RUN bundle install
 
-# Copy app source
+# Copy entire app into the container
 COPY . .
 
-# Precompile assets and setup
-RUN bundle exec rake assets:precompile
+# Precompile assets (optional - for production builds)
+# RUN bundle exec rake assets:precompile
 
-# Expose port
+# Expose port (optional - usually done in docker-compose.yml)
 EXPOSE 3000
 
-# Start the app
+# Start the Rails server
 CMD ["rails", "server", "-b", "0.0.0.0"]
