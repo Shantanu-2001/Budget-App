@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rails-service
+spec:
+  selector:
+    app: rails
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rails
+  template:
+    metadata:
+      labels:
+        app: rails
+    spec:
+      containers:
+      - name: rails
+        image: YOUR_DOCKERHUB_USERNAME/budget-app:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_HOST
+          value: "postgres"
+        - name: DATABASE_USERNAME
+          value: "postgres"
+        - name: DATABASE_PASSWORD
+          value: "password"
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: RAILS_ENV
+          value: "development"
