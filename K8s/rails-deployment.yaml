@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: YOUR_DOCKERHUB_USERNAME/budget-app:latest
+        image: shantanu2001/budget-app:latest
         ports:
         - containerPort: 3000
         env:
