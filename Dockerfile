@@ -1,5 +1,3 @@
-# Dockerfile
-
 FROM ruby:3.1.2
 
 # Install dependencies
@@ -24,3 +22,5 @@ COPY . .
 # Expose port 3000 for the Rails app
 EXPOSE 3000
 
+# Start Rails server
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
